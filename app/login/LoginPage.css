@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 3rem;
+}
+
+.loginCard {
+  width: 30rem;
+}
+
+.submitContainer {
+  margin-top: 18px;
+  justify-content: center;
+}
+
+.submitContainer button {
+  width: 100%;
+}

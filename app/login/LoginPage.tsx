@@ -1,5 +1,5 @@
 import { type ChangeEvent, useState } from 'react';
-import { ActionIcon, TextInput, Button, Checkbox, Group } from '@mantine/core';
+import { ActionIcon, TextInput, Button, Checkbox, Group, Card, PasswordInput } from '@mantine/core';
 import { FaSquarePlus } from 'react-icons/fa6';
 import './LoginPage.css';
 import { useForm } from '@mantine/form';
@@ -18,27 +18,43 @@ export const LoginPage = () => {
   });
 
   return (
-    <div>
+    <div className="cardContainer">
+      <Card className="loginCard" shadow="sm" padding="lg" radius="md" withBorder>
         <form onSubmit={form.onSubmit((values) => console.log(values))}>
-        <TextInput
-          withAsterisk
-          label="Email"
-          placeholder="your@email.com"
-          key={form.key('email')}
-          {...form.getInputProps('email')}
-        />
+          <Group className='header'>
+            <h1>Login</h1>
+          </Group>
 
-        <Checkbox
-          mt="md"
-          label="I agree to sell my privacy"
-          key={form.key('termsOfService')}
-          {...form.getInputProps('termsOfService', { type: 'checkbox' })}
-        />
+          <TextInput
+            withAsterisk
+            mt="md"
+            label="Email"
+            placeholder="your@email.com"
+            key={form.key('email')}
+            {...form.getInputProps('email')}
+          />
 
-        <Group justify="flex-end" mt="md">
-          <Button type="submit">Submit</Button>
-        </Group>
-      </form>
+          <PasswordInput
+            withAsterisk
+            mt="md"
+            label="Password"
+            placeholder="Enter your password"
+            key={form.key('password')}
+            {...form.getInputProps('password')}
+          />
+
+          <Checkbox
+            mt="md"
+            label="I agree to sell my privacy"
+            key={form.key('termsOfService')}
+            {...form.getInputProps('termsOfService', { type: 'checkbox' })}
+          />
+
+          <Group className="submitContainer">
+            <Button type="submit">Submit</Button>
+          </Group>
+        </form>
+      </Card>
     </div>
   )
 }
