@@ -15,28 +15,30 @@ export const TodoPage = () => {
     }
   }
 
-  const addTask = (): void => {
+  const addTask = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
     if (taskName === "") return;
 
     const newTask = {name: taskName, completed: false}
     setTodoList([...todoList, newTask]);
-    console.log(todoList);
     setTaskName("");
   }
   
   return (
     <div className='app'>
-      <div className='header'>
-        <TextInput 
-          placeholder="Add a task..." 
-          size="md" 
-          name="newTask"
-          value={taskName}
-          onChange={handleInputChange}
-        />
-        <Button onClick={addTask} aria-label="Add" size="md"> + </Button>
+      <form onSubmit={addTask}>
+        <div className='header'>
+          <TextInput 
+            placeholder="Add a task..." 
+            size="md" 
+            name="newTask"
+            value={taskName}
+            onChange={handleInputChange}
+          />
+          <Button type="submit" aria-label="Add" size="md"> + </Button>
+        </div>
+      </form>
 
-      </div>
       <div className='todo-list'>
         {todoList.map((task: Task, key: number) => {
           return <TodoTask task={task} key={key}/>;
