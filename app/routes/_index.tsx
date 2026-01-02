@@ -1,7 +1,8 @@
-// Copy of login.tsx
+// Navigate directly to _auth.login.tsx
 
-import { LoginPage } from "../login/LoginPage";
+import { LoginPage } from "../auth/LoginPage";
+import { redirect, type LoaderFunctionArgs } from "react-router";
 
-export default function Login() {
-  return <LoginPage />;
+export async function loader(_: LoaderFunctionArgs) {
+  return redirect("/login");
 }
