@@ -3,9 +3,11 @@ import { ActionIcon, TextInput, Button, Checkbox, Group, Card, PasswordInput } f
 import { FaSquarePlus } from 'react-icons/fa6';
 import './AuthPage.css';
 import { useForm } from '@mantine/form';
-import { Form, Link } from 'react-router';
+import { Form, Link, useSubmit } from 'react-router';
 
 export const LoginPage = () => {
+  const submit = useSubmit();
+
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -16,11 +18,17 @@ export const LoginPage = () => {
 
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      password: (value) => (value ? null : 'Password required'),
     },
   });
 
   return (
-    <Form method="post">
+    <Form onSubmit={form.onSubmit(values => {
+      submit(values, {
+        method: "post",
+        action: "/login",
+      });
+    })}>
       <div className='headerContainer'>
         <div className='loginHeader'>
           <h1>Sign in</h1>
