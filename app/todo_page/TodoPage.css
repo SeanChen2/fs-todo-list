@@ -51,15 +51,21 @@
   background-color: white;
 }
 
-.task .content {
+.task .taskName {
   display: flex;
   justify-content: left;
   align-items: center;
-  flex: auto;
   height: 100%;
   margin-left: 10px;
+  font-size: medium;
+}
+
+.task .taskName.completed {
+  text-decoration: line-through;
+  color: #999;
 }
 
 .delete-btn {
-  margin: 0px 0px;
+  margin-left: auto;
+  float: right;
 }
