@@ -15,21 +15,6 @@ export const TodoPage = () => {
       setTaskName(event.target.value);
     }
   };
-
-  // const addTask = (e: React.FormEvent<HTMLFormElement>): void => {
-  //   e.preventDefault();
-  //   if (taskName === "") return;
-
-  //   const newTask = {id: todoList.length, name: taskName, completed: false}
-  //   setTodoList([...todoList, newTask]);
-  //   setTaskName("");
-  // };
-
-  const deleteTask = (taskId: number): void => {
-    // setTodoList(todoList.filter(task => {
-    //   return task.id != taskId
-    // }))
-  };
   
   return (
     <div className='app'>
@@ -42,13 +27,21 @@ export const TodoPage = () => {
             value={taskName}
             onChange={handleInputChange}
           />
-          <Button type="submit" aria-label="Add" size="md"> + </Button>
+          <Button 
+            type="submit" 
+            aria-label="Add" 
+            size="md"
+            name="actionType"
+            value="add" // This form adds a task
+          > 
+            +
+          </Button>
         </div>
       </Form>
 
       <div className='todo-list'>
         {todoList.map((task: Task, key: number) => {
-          return <TodoTask task={task} key={key} deleteTask={deleteTask}/>;
+          return <TodoTask task={task} key={key}/>;
         })}
       </div>
     </div>

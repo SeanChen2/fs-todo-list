@@ -29,21 +29,49 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export async function action({ request }: ActionFunctionArgs) {
   const user = await requireUser(request);
-
   const formData = await request.formData();
-  const title = formData.get("newTask") as string;
+  const actionType = formData.get("actionType");
+  console.log("Action type: " + actionType)
+  
+  if (actionType === "add") {
+    const title = formData.get("newTask") as string;
 
-  if (!title.trim()) {
-    return { error: "Task title is required" };
+    if (!title.trim()) {
+      return { error: "Task title is required" };
+    }
+
+    await db.query(
+      `
+      INSERT INTO task (user_id, title)
+      VALUES ($1, $2)
+      `,
+      [user.id, title.trim()]
+    );
+
+  } else if (actionType === "toggle") {
+    const taskId = formData.get("taskId");
+    const completed = formData.get("completed");
+
+    await db.query(
+      `
+      UPDATE task
+      SET completed = $1
+      WHERE id = $2
+      `,
+      [completed, taskId]
+    );
+
+  } else if (actionType === "delete") {
+    const taskId = formData.get("taskId");
+    
+    await db.query(
+      `
+      DELETE FROM task
+      WHERE id = $1
+      `,
+      [taskId]
+    );
   }
-
-  await db.query(
-    `
-    INSERT INTO task (user_id, title)
-    VALUES ($1, $2)
-    `,
-    [user.id, title.trim()]
-  )
 
   return null
 }

@@ -4,5 +4,5 @@ import { LoginPage } from "../auth/LoginPage";
 import { redirect, type LoaderFunctionArgs } from "react-router";
 
 export async function loader(_: LoaderFunctionArgs) {
-  return redirect("/login");
+  return redirect("/home");
 }
