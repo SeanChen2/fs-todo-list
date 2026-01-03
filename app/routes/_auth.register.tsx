@@ -11,14 +11,17 @@ export async function action({ request }: ActionFunctionArgs) {
 
   // Do some process
   const response = await auth.api.signUpEmail({
-    body: { name, email, password }
+    body: { name, email, password },
+    asResponse: true,
   })
   console.log(name);
   console.log(email);
   console.log(password);
   console.log(response);
 
-  return redirect("/home");
+  return redirect("/home", {
+    headers: response.headers,
+  });
 }
 
 export default function Login() {

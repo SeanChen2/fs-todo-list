@@ -10,13 +10,16 @@ export async function action({ request }: ActionFunctionArgs) {
 
   // Do some process
   const response = await auth.api.signInEmail({
-    body: { email, password }
+    body: { email, password },
+    asResponse: true,
   })
   console.log(email);
   console.log(password);
   console.log(response);
 
-  return redirect("/home");
+  return redirect("/home", {
+    headers: response.headers,
+  });
 }
 
 export default function Login() {
