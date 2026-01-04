@@ -5,9 +5,11 @@ import './TodoPage.css';
 import { type Task } from './Interfaces';
 import TodoTask from './TodoTask';
 import { useLoaderData, Form } from 'react-router';
+import type { loader } from '~/routes/home';
+import { MdEdit } from 'react-icons/md';
 
 export const TodoPage = () => {
-  const { todoList } = useLoaderData<{ todoList: Task[] }>();
+  const { user, todoList } = useLoaderData<typeof loader>();
   const [taskName, setTaskName] = useState<string>("");
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -18,25 +20,28 @@ export const TodoPage = () => {
   
   return (
     <div className='app'>
-      <Form method="post">
-        <div className='header'>
-          <TextInput 
-            placeholder="Add a task..." 
-            size="md" 
-            name="newTask"
-            value={taskName}
-            onChange={handleInputChange}
-          />
-          <Button 
-            type="submit" 
-            aria-label="Add" 
-            size="md"
-            name="actionType"
-            value="add" // This form adds a task
-          > 
-            +
-          </Button>
-        </div>
+      <div className='header'>
+        <h1>Welcome back, {user.name}.</h1>
+        What's on your to-do list today?
+      </div>
+      
+      <Form className='newTaskForm' method="post">
+        <TextInput 
+          placeholder="Add a task..." 
+          size="md" 
+          name="newTask"
+          value={taskName}
+          onChange={handleInputChange}
+        />
+        <Button 
+          type="submit" 
+          aria-label="Add" 
+          size="md"
+          name="actionType"
+          value="add" // This form adds a task
+        > 
+          +
+        </Button>
       </Form>
 
       <div className='todo-list'>

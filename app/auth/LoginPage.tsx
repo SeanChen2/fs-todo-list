@@ -31,7 +31,7 @@ export const LoginPage = () => {
     })}>
       <div className='headerContainer'>
         <div className='loginHeader'>
-          <h1>Sign in</h1>
+          <h2>Sign in</h2>
           <p>
             Don't have an account?
             <Link to="/register"> Sign up.</Link>

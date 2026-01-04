@@ -33,7 +33,7 @@ export const RegisterPage = () => {
     })}>
       <div className='headerContainer'>
         <div className='loginHeader'>
-          <h1>Sign up</h1>
+          <h2>Sign up</h2>
           <p>
             Already have an account?
             <Link to="/login"> Sign in.</Link>

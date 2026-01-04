@@ -24,7 +24,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
     completed: task.completed,
   }));
 
-  return { todoList };
+  return { 
+    user: {
+      name: user.name,
+    },
+    todoList 
+  };
 }
 
 

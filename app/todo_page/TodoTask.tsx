@@ -1,8 +1,9 @@
 import React, { useState, type ChangeEvent, type FormEvent, type MouseEvent } from 'react';
 import type { Task } from './Interfaces';
 import { MdDelete } from "react-icons/md";
-import { useMantineTheme, ActionIcon, CloseButton, Checkbox, Text, TextInput } from '@mantine/core';
+import { useMantineTheme, ActionIcon, CloseButton, Checkbox, Text, TextInput, Group } from '@mantine/core';
 import { useFetcher } from 'react-router';
+import { MdEdit } from 'react-icons/md';
 
 interface Props {
     task: Task
@@ -64,15 +65,18 @@ export const TodoTask = ({task}: Props) => {
         </fetcher.Form>
       ) : (
         // Default mode (view)
-        <Text 
-          className={`taskName ${task.completed ? 'completed' : ''}`}
+        <Group 
+          className='taskNameContainer' 
           onClick={() => {
             setEditing(true);
             setNewTaskName(task.name);
           }}
         >
-          {task.name}
-        </Text>
+          <Text className={`taskName ${task.completed ? 'completed' : ''}`}>
+            {task.name}
+          </Text>
+          <MdEdit className="editIcon" color="grey"/>
+        </Group>
       )}
 
       <CloseButton 
