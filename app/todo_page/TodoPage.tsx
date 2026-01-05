@@ -1,10 +1,12 @@
 import { type ChangeEvent, useState } from 'react';
 import { ActionIcon, TextInput, Button } from '@mantine/core';
+import { FaSquarePlus } from 'react-icons/fa6';
 import './TodoPage.css';
 import { type Task } from './Interfaces';
 import TodoTask from './TodoTask';
 import { useLoaderData, Form } from 'react-router';
 import type { loader } from '~/routes/home';
+import { MdEdit } from 'react-icons/md';
 
 export const TodoPage = () => {
   const { user, todoList } = useLoaderData<typeof loader>();

@@ -1,13 +1,11 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { TodoPage } from "../todo_page/TodoPage";
 import { requireUser } from "~/auth";
-import { getDb } from "~/db";
+import { db } from "~/db";
 import { FaBreadSlice } from "react-icons/fa6";
-import type { Pool } from "@neondatabase/serverless";
 
-export async function loader({ request, context }: LoaderFunctionArgs) {
-  const user = await requireUser(request, context);
-  const db = getDb(context);
+export async function loader({ request }: LoaderFunctionArgs) {
+  const user = await requireUser(request);
 
   const { rows: tasks } = await db.query(
     `
@@ -27,9 +25,6 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   }));
 
   return { 
-    headers: {
-      'Cache-Control': 'max-age=3600',
-    },
     user: {
       name: user.name,
     },
@@ -38,41 +33,37 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 }
 
 
-export async function action({ request, context }: ActionFunctionArgs) {
-  const t0 = Date.now();
-  const user = await requireUser(request, context);
-  console.log("requireUser ms", Date.now() - t0)
-  const db = getDb(context);
+export async function action({ request }: ActionFunctionArgs) {
+  const user = await requireUser(request);
   const formData = await request.formData();
   const actionType = formData.get("actionType");
-  console.log("Action type: " + actionType);
+  console.log("Action type: " + actionType)
 
   switch (actionType) {
     case "add":
-      await addTask(formData, user, db);
+      await addTask(formData, user);
       break;
     case "toggle":
-      await toggleTask(formData, db);
+      await toggleTask(formData);
       break;
     case "delete":
-      await deleteTask(formData, db);
+      await deleteTask(formData);
       break;
     case "edit":
-      await editTask(formData, db);
+      await editTask(formData);
       break;
   }
 
   return null;
 }
 
-async function addTask(formData: FormData, user: any, db: Pool) {
+async function addTask(formData: FormData, user: any) {
   const title = formData.get("newTask") as string;
 
   if (!title.trim()) {
     return { error: "Task title is required" };
   }
 
-  const t0 = Date.now();
   await db.query(
     `
     INSERT INTO task (user_id, title)
@@ -80,10 +71,9 @@ async function addTask(formData: FormData, user: any, db: Pool) {
     `,
     [user.id, title.trim()]
   );
-  console.log("insert ms", Date.now() - t0)
 }
 
-async function toggleTask(formData: FormData, db: Pool) {
+async function toggleTask(formData: FormData) {
   const taskId = formData.get("taskId");
   const completed = formData.get("completed");
 
@@ -97,7 +87,7 @@ async function toggleTask(formData: FormData, db: Pool) {
   );
 }
 
-async function deleteTask(formData: FormData, db: Pool) {
+async function deleteTask(formData: FormData) {
   const taskId = formData.get("taskId");
     
   await db.query(
@@ -109,7 +99,7 @@ async function deleteTask(formData: FormData, db: Pool) {
   );
 }
 
-async function editTask(formData: FormData, db: Pool) {
+async function editTask(formData: FormData) {
   const taskId = formData.get("taskId");
   const newTitle = formData.get("newTitle");
 
