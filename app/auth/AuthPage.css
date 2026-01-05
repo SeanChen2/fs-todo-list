@@ -35,3 +35,8 @@
 .submitContainer button {
   width: 100%;
 }
+
+.errorMessage {
+  font-size: 12px;
+  margin-top: 10px;
+}

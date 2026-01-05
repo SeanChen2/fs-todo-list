@@ -1,8 +1,9 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { redirect, type ActionFunctionArgs, type LoaderFunctionArgs } from "react-router";
 import { TodoPage } from "../todo_page/TodoPage";
-import { requireUser } from "~/auth";
+import { auth, requireUser } from "~/auth";
 import { db } from "~/db";
 import { FaBreadSlice } from "react-icons/fa6";
+import { authClient } from "~/backend/auth-client";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await requireUser(request);
@@ -42,19 +43,22 @@ export async function action({ request }: ActionFunctionArgs) {
   switch (actionType) {
     case "add":
       await addTask(formData, user);
-      break;
+      return null;
     case "toggle":
       await toggleTask(formData);
-      break;
+      return null;
     case "delete":
       await deleteTask(formData);
-      break;
+      return null;
     case "edit":
       await editTask(formData);
-      break;
+      return null;
+    case "logOut":
+      const response = await logOut();
+      return redirect("/login", {
+        headers: response.headers,
+      });
   }
-
-  return null;
 }
 
 async function addTask(formData: FormData, user: any) {
@@ -111,6 +115,13 @@ async function editTask(formData: FormData) {
     `,
     [newTitle, taskId]
   );
+}
+
+async function logOut() {
+  return await auth.api.signOut({
+    headers: {},
+    asResponse: true,
+  });
 }
 
 export default function Home() {

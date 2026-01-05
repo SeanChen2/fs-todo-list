@@ -1,6 +1,7 @@
 import { auth } from "~/auth";
 import { LoginPage } from "../auth/LoginPage";
 import { type ActionFunctionArgs, redirect } from "react-router";
+import { APIError } from "better-auth";
 
 // When the form is submitted
 export async function action({ request }: ActionFunctionArgs) {
@@ -8,14 +9,19 @@ export async function action({ request }: ActionFunctionArgs) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
-  // Do some process
   const response = await auth.api.signInEmail({
     body: { email, password },
     asResponse: true,
-  })
-  console.log(email);
-  console.log(password);
-  console.log(response);
+  });
+
+  // Error handling
+  if (!response.ok) {
+    const data = await response.clone().json();
+    const message = data?.message ?? data?.error ?? "Something went wrong. Please try again."
+    return {
+      formError: message,
+    }
+  }
 
   return redirect("/home", {
     headers: response.headers,

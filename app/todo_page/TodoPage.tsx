@@ -7,6 +7,7 @@ import TodoTask from './TodoTask';
 import { useLoaderData, Form } from 'react-router';
 import type { loader } from '~/routes/home';
 import { MdEdit } from 'react-icons/md';
+import { ProfileMenu } from './ProfileMenu';
 
 export const TodoPage = () => {
   const { user, todoList } = useLoaderData<typeof loader>();
@@ -20,12 +21,16 @@ export const TodoPage = () => {
   
   return (
     <div className='app'>
+      <div className='profileMenuContainer'>
+        <ProfileMenu name={user.name}/>
+      </div>
+
       <div className='header'>
         <h1>Welcome back, {user.name}.</h1>
         What's on your to-do list today?
       </div>
       
-      <Form className='newTaskForm' method="post">
+      <Form className='newTaskForm' method="post" onSubmit={() => setTaskName("")}>
         <TextInput 
           placeholder="Add a task..." 
           size="md" 

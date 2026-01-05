@@ -75,7 +75,6 @@
 
 .task {
   width: 100%;
-  min-height: 52px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -132,4 +131,24 @@
 .delete-btn {
   margin-left: auto;
   opacity: 0.6;
+}
+
+.profileMenuContainer {
+  margin-bottom: 2rem;
+  margin-right: auto;
+  margin-left: 0.8rem;
+}
+
+.profileMenuButton {
+  padding: 6px 10px;
+  border-radius: 20px;
+  transition: background-color 150ms ease;
+}
+
+.profileMenuButton:hover {
+  background-color: #e8e9ef;
+}
+
+.profileMenuButton:active {
+  background-color: #e0e1e8;
 }

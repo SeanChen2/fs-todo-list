@@ -1,12 +1,21 @@
-import { type ChangeEvent, useState } from 'react';
-import { ActionIcon, TextInput, Button, Checkbox, Group, Card, PasswordInput } from '@mantine/core';
+import { type ChangeEvent, useState, useEffect } from 'react';
+import { ActionIcon, TextInput, Button, Checkbox, Group, Card, PasswordInput, Text } from '@mantine/core';
 import { FaSquarePlus } from 'react-icons/fa6';
 import './AuthPage.css';
 import { useForm } from '@mantine/form';
-import { Link, Form, useSubmit } from 'react-router';
+import { Link, Form, useSubmit, useActionData } from 'react-router';
+
+type ActionData = {
+  fieldErrors?: {
+    email?: string;
+    password?: string;
+  };
+  formError?: string;
+};
 
 export const RegisterPage = () => {
   const submit = useSubmit();
+  const actionData = useActionData<ActionData>();
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -23,6 +32,12 @@ export const RegisterPage = () => {
       password: (value) => (value ? null : "Password is required"),
     },
   });
+
+  useEffect(() => {
+    if (actionData?.fieldErrors) {
+      form.setErrors(actionData.fieldErrors);
+    }
+  }, [actionData]);
 
   return (
     <Form onSubmit={form.onSubmit(values => {
@@ -70,6 +85,10 @@ export const RegisterPage = () => {
         key={form.key('password')}
         {...form.getInputProps('password')}
       />
+
+      {actionData?.formError && (
+        <Text className='errorMessage' c="red">{actionData.formError}</Text>
+      )}
 
       <Group className="submitContainer" mt="lg">
         <Button type="submit">Register</Button>
