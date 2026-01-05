@@ -1,7 +1,5 @@
-import { Pool } from "@neondatabase/serverless";
-import type { AppLoadContext } from "react-router";
+import { Pool } from "pg";
 
-export function getDb(context: AppLoadContext) {
-    const env = context.cloudflare.env;
-    return new Pool({ connectionString: env.DB_URL })
-}
+export const db = new Pool({
+    connectionString: process.env.DB_URL as string,
+})
