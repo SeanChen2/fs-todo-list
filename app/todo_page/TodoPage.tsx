@@ -26,7 +26,7 @@ export const TodoPage = () => {
       </div>
 
       <div className='header'>
-        <h1>Welcome back, {user.name}.</h1>
+        <h1>Welcome, {user.name}.</h1>
         What's on your to-do list today?
       </div>
       

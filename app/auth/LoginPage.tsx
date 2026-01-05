@@ -5,6 +5,14 @@ import './AuthPage.css';
 import { useForm } from '@mantine/form';
 import { Form, Link, useSubmit, useActionData } from 'react-router';
 
+type ActionData = {
+  fieldErrors?: {
+    email?: string;
+    password?: string;
+  };
+  formError?: string;
+};
+
 export const LoginPage = () => {
   const submit = useSubmit();
   const actionData = useActionData<ActionData>();
